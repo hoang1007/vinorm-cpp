@@ -185,6 +185,17 @@ bool to_bool(const std::string& x) {
   return x == "1";
 }
 
+void usage(const std::string& prog_name) {
+    std::cout << "Usage: " << prog_name << " [options]\n";
+    std::cout << "Options:\n";
+    std::cout << "  -h, --help       Display help message\n";
+    std::cout << "  --punc           Preserve original punctuation, do not replace them with dot and comma\n";
+    std::cout << "  --keep-oov       Retain unknown words\n";
+    std::cout << "  --lower          Convert text to lowercase after normalization\n";
+    std::cout << "  --regex-only     Use regex matching only, skip dictionary checks\n";
+    std::cout << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
     bool punc = false; // if true: keep do not replace with dot and coma
@@ -193,26 +204,23 @@ int main(int argc, char *argv[])
     bool rule = false; // if true: Just get normalization wit Regex, not using Dictionary Checking
 
     for (int i = 1; i < argc; i++)
-    {  
-        if (strcmp(argv[i], "-punc") == 0)
-        {                 
+    {
+        std::string arg = argv[i];
+        if (arg == "-h" || arg == "--help") {
+            usage(argv[0]);
+            return 0;
+        } else if (arg == "--punc") {
             punc = true;
-            continue;
-        }
-        if (strcmp(argv[i], "-unknown") == 0)
-        {                 
+        } else if (arg == "--keep-oov") {
             unknown = true;
-            continue;
-        }
-        if (strcmp(argv[i], "-lower") == 0)
-        {                 
+        } else if (arg == "--lower") {
             lower = true;
-            continue;
-        }
-        if (strcmp(argv[i], "-rule") == 0)
-        {                 
+        } else if (arg == "--regex-only") {
             rule = true;
-            continue;
+        } else {
+            std::cerr << "Unknown option: " << arg << std::endl;
+            usage(argv[0]);
+            return 1;
         }
     }
 
