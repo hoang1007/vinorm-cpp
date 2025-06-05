@@ -13,6 +13,7 @@
 #include "ICUReadFile.h"
 #include "ICUMapping.h"
 #include "ICUDictionary.h"
+#include "PathUtils.h"
 #include "SpecialCase.h"
 #include "Address.h"
 #include "Math.h"
@@ -154,7 +155,7 @@ bool containsOnlyLetter(const UnicodeString &word)
     UnicodeString lowered(word);
     lowered.toLower();
     ICUMapping letterSoundVN;
-    string letterVNFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterVNFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSoundVN.loadMappingFile(letterVNFile.data());
     StringCharacterIterator iter(lowered);
     for (auto c = iter.first32(); c != StringCharacterIterator::DONE; c = iter.next32())
@@ -250,23 +251,23 @@ int main(int argc, char *argv[])
 
     // Mapping files
     ICUMapping acronym;
-    string acronymFile = MAPPING_FOLDER + "/" + F_ACRONYMS;
+    string acronymFile = getResourcePath(MAPPING_FOLDER + "/" + F_ACRONYMS);
     acronym.loadMappingFile(acronymFile.data());
     ICUMapping teenCode;
-    string teencodeFile = MAPPING_FOLDER + "/" + F_TEENCODE;
+    string teencodeFile = getResourcePath(MAPPING_FOLDER + "/" + F_TEENCODE);
     teenCode.loadMappingFile(teencodeFile.data());
     ICUMapping symbol;
-    string symbolFile = MAPPING_FOLDER + "/" + F_SYMBOL;
+    string symbolFile = getResourcePath(MAPPING_FOLDER + "/" + F_SYMBOL);
     symbol.loadMappingFile(symbolFile.data());
     ICUMapping letterSoundVN;
-    string letterVNFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterVNFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSoundVN.loadMappingFile(letterVNFile.data());
     ICUMapping letterSoundEN;
-    string letterENFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_EN;
+    string letterENFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_EN);
     letterSoundEN.loadMappingFile(letterENFile.data());
     // Dictionary Files
     ICUDictionary popularWord;
-    string popFile = DICT_FOLDER + "/" + F_POPULAR;
+    string popFile = getResourcePath(DICT_FOLDER + "/" + F_POPULAR);
     popularWord.loadDictFile(popFile.data());
     // Read input from file
     ICUReadFile inputFile(input_file.data());

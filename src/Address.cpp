@@ -1,8 +1,10 @@
 // From version 2.0, vinorm do not normalize unknown word (Covid-19) keep it, this is used with espeak, let espeak backend handle this case
 #include "Address.h"
+#include "PathUtils.h"
+
 void Address::loadPatterns(int categories, string filename) {
     // Open file, read line by line
-    string file = REGEX_FOLDER + "/" + filename;
+    string file = getResourcePath(REGEX_FOLDER + "/" + filename);
     ICUReadFile f(file.data());
     bool readStatus = f.readFile();
     if (!readStatus) {
@@ -114,7 +116,7 @@ UnicodeString Address::regexStreet(RegexMatcher* matcher, UErrorCode &status) {
     UnicodeString number;
     ConvertingNumber converter;
     ICUMapping letterSound;
-    string letterSoundFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterSoundFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSound.loadMappingFile(letterSoundFile.data());
     StringCharacterIterator iter(mainPart);
     
@@ -171,7 +173,7 @@ UnicodeString Address::regexOffice(RegexMatcher* matcher, UErrorCode& status) {
     UnicodeString number;
     ConvertingNumber converter;
     ICUMapping letterSound;
-    string letterSoundFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterSoundFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSound.loadMappingFile(letterSoundFile.data());
     StringCharacterIterator iter(mainPart);
     
@@ -429,16 +431,16 @@ UnicodeString Address::regexCodenumber(RegexMatcher* matcher, UErrorCode& status
     ICUMapping letterSound;
     ICUMapping letterVN;
 
-    string letterVNFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterVNFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterVN.loadMappingFile(letterVNFile.data());
 
     ICUDictionary popularWord;
-    string popFile = DICT_FOLDER + "/" + F_POPULAR;
+    string popFile = getResourcePath(DICT_FOLDER + "/" + F_POPULAR);
     popularWord.loadDictFile(popFile.data());
-    
-    string letterSoundFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+
+    string letterSoundFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSound.loadMappingFile(letterSoundFile.data());
-    letterSoundFile = MAPPING_FOLDER + "/" + F_SYMBOL;
+    letterSoundFile = getResourcePath(MAPPING_FOLDER + "/" + F_SYMBOL);
     letterSound.loadMappingFile(letterSoundFile.data());
 
     match.trim();

@@ -1,7 +1,9 @@
 #include "SpecialCase.h"
+#include "PathUtils.h"
+
 void SpecialCase::loadPatterns(int categories, string filename) {
     // Open file, read line by line
-    string file = REGEX_FOLDER + "/" + filename;
+    string file = getResourcePath(REGEX_FOLDER + "/" + filename);
     ICUReadFile f(file.data());
     bool readStatus = f.readFile();
     if (!readStatus) {
@@ -94,9 +96,9 @@ UnicodeString SpecialCase::regexFootballOther(RegexMatcher* matcher, UErrorCode 
 }
 UnicodeString SpecialCase::regexWebsite(RegexMatcher* matcher, UErrorCode &status) {
     ICUMapping letterSoundVN;
-    string letterSoundVNFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN;
+    string letterSoundVNFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_VN);
     letterSoundVN.loadMappingFile(letterSoundVNFile.data());
-    letterSoundVNFile = MAPPING_FOLDER + "/" + F_SYMBOL;
+    letterSoundVNFile = getResourcePath(MAPPING_FOLDER + "/" + F_SYMBOL);
     letterSoundVN.loadMappingFile(letterSoundVNFile.data());
     UnicodeString match = matcher->group(status);
     UnicodeString matchLowered(match);
@@ -132,9 +134,9 @@ UnicodeString SpecialCase::regexWebsite(RegexMatcher* matcher, UErrorCode &statu
 UnicodeString SpecialCase::regexEmail(RegexMatcher* matcher, UErrorCode &status) {
 
     ICUMapping letterSoundEN;
-    string letterSoundENFile = MAPPING_FOLDER + "/" + F_LETTER_SOUND_EN;
+    string letterSoundENFile = getResourcePath(MAPPING_FOLDER + "/" + F_LETTER_SOUND_EN);
     letterSoundEN.loadMappingFile(letterSoundENFile.data());
-    letterSoundENFile = MAPPING_FOLDER + "/" + F_SYMBOL;
+    letterSoundENFile = getResourcePath(MAPPING_FOLDER + "/" + F_SYMBOL);
     letterSoundEN.loadMappingFile(letterSoundENFile.data());
     UnicodeString match = matcher->group(status);
     //if (match.length()>35)
@@ -179,7 +181,7 @@ UnicodeString SpecialCase::regexPhoneNumber(RegexMatcher* matcher, UErrorCode &s
     UnicodeString match = matcher->group(status);
     StringCharacterIterator iter(match);
     ICUMapping number;
-    string numberFile = MAPPING_FOLDER + "/" + F_NUMBER_SOUND;
+    string numberFile = getResourcePath(MAPPING_FOLDER + "/" + F_NUMBER_SOUND);
     number.loadMappingFile(numberFile.data());
     UChar32 c;
     for (c = iter.first32(); c != StringCharacterIterator::DONE; c = iter.next32()) {

@@ -12,6 +12,7 @@
 #include "ICUConstant.h"
 #include "ICUNumberConverting.h"
 #include "ICUHelper.h"
+#include "PathUtils.h"
 using std::vector;
 using std::cout;
 using std::cerr;
@@ -51,9 +52,9 @@ class Math{
         map<int, vector<UnicodeString>> patterns;
         
         ICUMapping unitCurrencyMapping;
-        string unitCurrencyFile = MAPPING_FOLDER + "/" + F_UNIT_MAPPING_CURRENCY;
+        string unitCurrencyFile = getResourcePath(MAPPING_FOLDER + "/" + F_UNIT_MAPPING_CURRENCY);
         ICUMapping unitBaseMapping;
-        string unitBaseFile = MAPPING_FOLDER + "/" + F_UNIT_MAPPING_BASE;
+        string unitBaseFile = getResourcePath(MAPPING_FOLDER + "/" + F_UNIT_MAPPING_BASE);
         // Processing match by regex in each categories
         UnicodeString regexRomanNumber(RegexMatcher* matcher, UErrorCode &status);
         UnicodeString regexNormalNumber(RegexMatcher* matcher, UErrorCode &status, int pattern);

@@ -29,7 +29,7 @@ UnicodeString Math::stringForReplace(int categories, RegexMatcher* matcher, UErr
 }
 void Math::loadPatterns(int categories, string filename) {
     // Open file, read line by line
-    string file = REGEX_FOLDER + "/" + filename;
+    string file = getResourcePath(REGEX_FOLDER + "/" + filename);
     ICUReadFile f(file.data());
     bool readStatus = f.readFile();
     if (!readStatus) {

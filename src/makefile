@@ -1,6 +1,6 @@
 DEPS = ./ICUReadFile.cpp ./ICUMapping.cpp ./ICUNumberConverting.cpp \
 		./ICUDictionary.cpp  ./SpecialCase.cpp  ./Address.cpp \
-		./Math.cpp ./DateTime.cpp 
+		./Math.cpp ./DateTime.cpp ./PathUtils.cpp 
 
 MAIN = main.cpp
 TEST = test.cpp
