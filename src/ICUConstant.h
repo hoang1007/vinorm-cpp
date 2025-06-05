@@ -38,9 +38,4 @@ namespace ICUConstant {
     const string F_ACRONYMS = "Acronyms_shorten.txt";
     const string F_TEENCODE = "Teencode.txt";
     const string F_POPULAR = "Popular.txt";
-    // Input file contains text to normalize
-    const string F_INPUT = "input.txt";
-    // Ouput file contains normalized text
-    const string F_OUTPUT = "output.txt";
-        
 };

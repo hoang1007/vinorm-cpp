@@ -27,10 +27,8 @@ using icu::UnicodeSet;
 using icu::UnicodeString;
 using ICUConstant::DICT_FOLDER;
 using ICUConstant::F_ACRONYMS;
-using ICUConstant::F_INPUT;
 using ICUConstant::F_LETTER_SOUND_EN;
 using ICUConstant::F_LETTER_SOUND_VN;
-using ICUConstant::F_OUTPUT;
 using ICUConstant::F_POPULAR;
 using ICUConstant::F_SYMBOL;
 using ICUConstant::F_TEENCODE;
@@ -193,6 +191,8 @@ void usage(const std::string& prog_name) {
     std::cout << "  --keep-oov       Retain unknown words\n";
     std::cout << "  --lower          Convert text to lowercase after normalization\n";
     std::cout << "  --regex-only     Use regex matching only, skip dictionary checks\n";
+    std::cout << "  --input <file>   The input file contains one text per line to be normalized\n";
+    std::cout << "  --output <file>  The output file contains one normalized text per line\n";
     std::cout << std::endl;
 }
 
@@ -202,6 +202,8 @@ int main(int argc, char *argv[])
     bool unknown = false; // if true: discard word undefine and do not contain vowel, do not spell word with vowel
     bool lower = false; // if false: Just get normalization without lowercase
     bool rule = false; // if true: Just get normalization wit Regex, not using Dictionary Checking
+    std::string input_file;
+    std::string output_file;
 
     for (int i = 1; i < argc; i++)
     {
@@ -217,11 +219,27 @@ int main(int argc, char *argv[])
             lower = true;
         } else if (arg == "--regex-only") {
             rule = true;
+        } else if (arg == "--input" && i + 1 < argc) {
+            input_file = argv[++i];
+        } else if (arg == "--output" && i + 1 < argc) {
+            output_file = argv[++i];
         } else {
             std::cerr << "Unknown option: " << arg << std::endl;
             usage(argv[0]);
             return 1;
         }
+    }
+
+    if (input_file.empty()) {
+        fprintf(stderr, "[E] Input file not specified\n");
+        usage(argv[0]);
+        return 1;
+    }
+
+    if (output_file.empty()) {
+        fprintf(stderr, "[E] Output file not specified\n");
+        usage(argv[0]);
+        return 1;
     }
 
     // Regex Rules
@@ -251,10 +269,10 @@ int main(int argc, char *argv[])
     string popFile = DICT_FOLDER + "/" + F_POPULAR;
     popularWord.loadDictFile(popFile.data());
     // Read input from file
-    ICUReadFile inputFile(F_INPUT.data());
+    ICUReadFile inputFile(input_file.data());
     inputFile.readFile();
     // Write result to file
-    std::ofstream fout(F_OUTPUT);
+    std::ofstream fout(output_file.data());
     // Result text
     UnicodeString normalizedText;
     // Read input file line by line

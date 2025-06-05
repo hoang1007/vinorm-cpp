@@ -20,5 +20,5 @@ test: $(DEPS) $(TEST) makefile ./ICUHelper.h
 		-licudata -licui18n -licuio -licuuc \
 
 clean:
-	rm -f main log output.txt input.txt
+	rm -f main log
 
